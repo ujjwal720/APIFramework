@@ -1,6 +1,8 @@
+package tests;
 
 import endpoints.apipoints;
 import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import org.testng.annotations.BeforeClass;
 
@@ -16,9 +18,11 @@ public class Basetest {
      */
 
      @BeforeClass
-    public void setup(){
+    public void initsetup(){
+         System.out.println("Parent before class");
+         specification=given().baseUri(apipoints.BASE_URL).contentType("application/json");
 
-         specification=given().baseUri(apipoints.BASE_URL).log().all();
+
      }
 
 
@@ -29,9 +33,13 @@ public class Basetest {
 
      public Response post(String endpoint, String body){
 
-         return given().body(body).spec(specification).when().post(endpoint);
+         return given().spec(specification).body(body).when().post(endpoint);
 
      }
+
+     /*
+
+      */
 
      public int getStatusCode(Response response){
 
